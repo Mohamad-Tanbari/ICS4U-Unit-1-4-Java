@@ -16,7 +16,7 @@ final class Dice {
     /**
      * The maximum number that can be generated.
      */
-    final int maxRandomNumber = 6;
+    static final int maxRandomNumber = 6;
 
     /**
      * Prevent instantiation.
@@ -34,21 +34,38 @@ final class Dice {
         final int randomNumber = (int)Math.floor(Math.random()
             * (maxRandomNumber - 1) + 1);
 
+        // Initialize attempts counter
         int attempts = 1;
 
         // Input loop
-        while(attempts < 5) {
+        while(true) {
+            // Initial input prompt
+            System.out.printf("Guess a number between 1 - 6: ");
             final String guessStr = scanner.nextLine();
 
+            // Verify input
             try {
-                final int guess = Int.parseInt(guessStr);
+                // Convert guess to an int
+                final int guess = Integer.parseInt(guessStr);
 
-                
+                // Decide what to do with the guess
+                if (guess == randomNumber) {
+                    System.out.println("You guessed the right number!" + 
+                      "\nIt took you " + attempts + " attempts.\n");
+                    break;
+                } else if (guess > maxRandomNumber) {
+                    System.out.println("That is not 1 - 6.\nTry again!\n");
+                } else if (guess < randomNumber) {
+                    System.out.println("Your guess is too low.\nTry again!\n");
+                } else if (guess > randomNumber) {
+                    System.out.println("Your guess is too high.\nTry again!\n");
+                }
+
+                // Add to attempts counter
+                attempts++;
             } catch (NumberFormatException error) {
-              System.out.println("Invalid input. Try again.");
+              System.out.println("\nInvalid input. Try again.\n");
             }
-            attempts++;
         }
-
     }
 }
